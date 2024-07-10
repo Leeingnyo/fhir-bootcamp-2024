@@ -25,7 +25,7 @@ export const ChatContextProvider = ({ children }: PropsWithChildren) => {
       if (index < 0) {
         return [...prev, chat];
       }
-      return prev.map(chat_ => chat_.id === chat.id ? chat : chat_);
+      return prev.map(chat_ => chat_.id === chat.id ? { ...chat_, ...chat } : chat_);
     });
   }, []);
 

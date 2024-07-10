@@ -1,5 +1,5 @@
 import { FormEvent, useContext, useMemo, useRef } from 'react';
-import { StompClientParams, useStompClient } from '../hooks/stomp-client'
+import { StompClientParams, useStompClient, Response } from '../hooks/stomp-client'
 import { ChatContext, UpdateChatContext } from '../hooks/chat-context';
 import { Chat, YourMessage, isYourMessage } from '../hooks/chat';
 import {} from './chat-view.css';
@@ -9,12 +9,24 @@ export const ChatView = () => {
   const { addChat } = useContext(UpdateChatContext);
 
   const params = useMemo<StompClientParams>(() => ({
-    callback: ({ id, response }) => addChat({
-      id,
-      type: 'other',
-      message: response,
-      timestamp: new Date(),
-    }),
+    callback: (response: Response) => {
+      const { id } = response;
+      if (response.type === 'TEXT') {
+        addChat({
+          id,
+          type: 'other',
+          message: response.response,
+          timestamp: new Date(),
+        });
+      } else if (response.type === 'FHIR') {
+        addChat({
+          id,
+          type: 'other',
+          fhir: JSON.parse(response.content),
+          timestamp: new Date(),
+        });
+      }
+    }
   }), [addChat]);
   const stompClientRef = useStompClient(params);
 

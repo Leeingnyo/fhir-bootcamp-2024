@@ -2,7 +2,8 @@
 export interface Chat {
   id: string;
   type: string;
-  message: string;
+  message?: string;
+  fhir?: object;
   timestamp: Date;
 }
 

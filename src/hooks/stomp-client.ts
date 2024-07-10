@@ -1,10 +1,21 @@
 import { MutableRefObject, useEffect, useRef } from "react";
 import { Client } from "@stomp/stompjs";
 
-export interface Response {
+interface ResponseBase {
   id: string;
-  response: string;
 }
+
+interface TextResponse extends ResponseBase {
+  response: string;
+  type: 'TEXT';
+}
+
+interface FhirResponse extends ResponseBase {
+  content: string;
+  type: 'FHIR';
+}
+
+export type Response = TextResponse | FhirResponse;
 
 export interface StompClientParams {
   callback: (r: Response) => void
