@@ -1,8 +1,20 @@
 import { FormEvent, useMemo, useState } from 'react';
 import './App.css'
 import { StompClientParams, useStompClient } from './hooks/stomp-client'
+import { ChatContextProvider } from './hooks/chat-context';
 
 function App() {
+
+  return (
+    <ChatContextProvider>
+      <ChatView />
+    </ChatContextProvider>
+  )
+}
+
+export default App
+
+const ChatView = () => {
   const params = useMemo<StompClientParams>(() => ({
     callback: r => setResponseMessage(r.response),
   }), []);
@@ -27,7 +39,5 @@ function App() {
       <input name='query' />
       <button>전송</button>
     </form>
-  )
-}
-
-export default App
+  );
+};
