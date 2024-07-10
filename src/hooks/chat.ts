@@ -1,9 +1,19 @@
+export interface LineChartData {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any[];
+  xKey: string;
+  xType: 'string' | 'number' | 'date';
+  values: string[];
+  labels?: string[];
+  yUnit?: string;
+}
 
 export interface Chat {
   id: string;
   type: string;
   message?: string;
   fhir?: object;
+  lineChart?: LineChartData;
   timestamp: Date;
 }
 

@@ -7,6 +7,7 @@ import { KeepMeInScreen } from '../components/KeepMeInScreen';
 import remarkGfm from 'remark-gfm';
 import Markdown from 'react-markdown';
 import ReactJson from 'react-json-view';
+import { ChatLineChart } from '../components/LineChart';
 
 export const ChatView = () => {
   const { messages } = useContext(ChatContext);
@@ -29,6 +30,13 @@ export const ChatView = () => {
           fhir: JSON.parse(response.content),
           timestamp: new Date(),
         });
+      } else if (response.type === 'LINECHART') {
+        addChat({
+          id,
+          type: 'other',
+          lineChart: response.lineChart,
+          timestamp: new Date(),
+        })
       }
     }
   }), [addChat]);
@@ -132,6 +140,7 @@ const YourChatBubble = ({ chat }: YourChatBubbleProps) => {
     <>
       <div className='chat__bubble chat__bubble--other'>
         <Markdown remarkPlugins={[remarkGfm]}>{chat.message}</Markdown>
+        {chat.lineChart && ( <ChatLineChart lineChart={chat.lineChart} />)}
       </div>
       <div className='chat__side'>
         <button onClick={handleClickOpenModalButton}>Show Raw Chat</button>

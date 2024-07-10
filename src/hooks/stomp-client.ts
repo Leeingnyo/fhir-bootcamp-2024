@@ -1,5 +1,6 @@
 import { MutableRefObject, useEffect, useRef } from "react";
 import { Client } from "@stomp/stompjs";
+import type { LineChartData } from "./chat";
 
 interface ResponseBase {
   id: string;
@@ -15,7 +16,12 @@ interface FhirResponse extends ResponseBase {
   type: 'FHIR';
 }
 
-export type Response = TextResponse | FhirResponse;
+interface LineChartResponse extends ResponseBase {
+  type: 'LINECHART';
+  lineChart: LineChartData;
+}
+
+export type Response = TextResponse | FhirResponse | LineChartResponse;
 
 export interface StompClientParams {
   callback: (r: Response) => void
