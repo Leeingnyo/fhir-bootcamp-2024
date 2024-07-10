@@ -6,6 +6,7 @@ import {} from './chat-view.css';
 import { KeepMeInScreen } from '../components/KeepMeInScreen';
 import remarkGfm from 'remark-gfm';
 import Markdown from 'react-markdown';
+import ReactJson from 'react-json-view';
 
 export const ChatView = () => {
   const { messages } = useContext(ChatContext);
@@ -136,7 +137,18 @@ const YourChatBubble = ({ chat }: YourChatBubbleProps) => {
         <button onClick={handleClickOpenModalButton}>Show Raw Chat</button>
         <ChatTimestamp timestamp={chat.timestamp} />
         <dialog ref={modalRef} className='chat__chat-modal'>
-          <div className='chat__chat-modal-content'>{JSON.stringify(chat, undefined, 2)}</div>
+          <ReactJson
+            src={chat}
+            shouldCollapse={({ src, namespace }) => namespace.length > 1 && JSON.stringify(src).length > 500}
+            enableClipboard={false}
+            displayDataTypes={false}
+            displayObjectSize={false}
+          />
+          <hr />
+          <details>
+            <summary tabIndex={-1}>View Raw String</summary>
+            <div className='chat__raw-chat'>{JSON.stringify(chat, undefined, 2)}</div>
+          </details>
         </dialog>
       </div>
     </>
