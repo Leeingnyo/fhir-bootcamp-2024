@@ -3,6 +3,7 @@ import { StompClientParams, useStompClient, Response } from '../hooks/stomp-clie
 import { ChatContext, UpdateChatContext } from '../hooks/chat-context';
 import { Chat, YourMessage, isYourMessage } from '../hooks/chat';
 import {} from './chat-view.css';
+import { KeepMeInScreen } from '../components/KeepMeInScreen';
 
 export const ChatView = () => {
   const { messages } = useContext(ChatContext);
@@ -73,6 +74,7 @@ export const ChatView = () => {
         <input className='chat-input-form__input' ref={inputRef} name='query' placeholder='Ask your FHIR!' />
         <button className='chat-input-form__button'>전송</button>
       </form>
+      <KeepMeInScreen />
     </section>
   );
 };
