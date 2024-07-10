@@ -4,6 +4,8 @@ import { ChatContext, UpdateChatContext } from '../hooks/chat-context';
 import { Chat, YourMessage, isYourMessage } from '../hooks/chat';
 import {} from './chat-view.css';
 import { KeepMeInScreen } from '../components/KeepMeInScreen';
+import remarkGfm from 'remark-gfm';
+import Markdown from 'react-markdown';
 
 export const ChatView = () => {
   const { messages } = useContext(ChatContext);
@@ -128,7 +130,7 @@ const YourChatBubble = ({ chat }: YourChatBubbleProps) => {
   return (
     <>
       <div className='chat__bubble chat__bubble--other'>
-        {chat.message}
+        <Markdown remarkPlugins={[remarkGfm]}>{chat.message}</Markdown>
       </div>
       <div className='chat__side'>
         <button onClick={handleClickOpenModalButton}>Show Raw Chat</button>

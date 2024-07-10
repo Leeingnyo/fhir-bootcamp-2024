@@ -53,7 +53,6 @@
   padding: 4px 12px;
   border-radius: 20px;
   border: 1px solid rgb(0, 0, 0, 0.2);
-  white-space: pre-line;
   align-self: stretch;
   word-break: keep-all;
 }
@@ -62,6 +61,25 @@
 }
 .chat__bubble--mine {
   background-color: skyblue;
+}
+
+/* normalize */
+.chat__bubble p:first-child {
+  margin-top: 0;
+}
+.chat__bubble p:last-child {
+  margin-bottom: 0;
+}
+.chat__bubble code {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.chat__bubble table {
+  border-collapse: collapse;
+  border-style: solid;
+}
+.chat__bubble th, .chat__bubble td {
+  padding: 4px;
+  border-style: solid;
 }
 
 .chat-input-form {
