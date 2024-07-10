@@ -57,6 +57,9 @@ export const ChatView = () => {
   return (
     <section className='chat-section'>
       <ol className='chat-section__list chat-list'>
+        {messages.length === 0 && (
+          <span>궁금한 것을 물어보세요! Ask your FHIR!</span>
+        )}
         {messages.map(chat => (
           <li
             key={chat.id ?? Math.random()}
