@@ -6,6 +6,15 @@ interface ResponseBase {
   id: string;
 }
 
+interface EventResponse extends ResponseBase {
+  type: 'EVENT';
+  content: string;
+}
+
+interface DoneEventResponse extends ResponseBase {
+  type: 'DONE_EVENT';
+}
+
 interface TextResponse extends ResponseBase {
   response: string;
   type: 'TEXT';
@@ -20,7 +29,7 @@ interface LineChartResponse extends ResponseBase, LineChartData {
   type: 'LINE_CHART';
 }
 
-export type Response = TextResponse | FhirResponse | LineChartResponse;
+export type Response = EventResponse | DoneEventResponse | TextResponse | FhirResponse | LineChartResponse;
 
 export interface StompClientParams {
   callback: (r: Response) => void

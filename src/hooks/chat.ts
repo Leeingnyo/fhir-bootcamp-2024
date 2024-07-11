@@ -15,6 +15,7 @@ export interface Chat {
   fhir?: object;
   lineChart?: LineChartData;
   timestamp: Date;
+  term?: string;
 }
 
 export interface YourMessage extends Chat {

@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useMemo, useRef } from 'react';
+import { FormEvent, useContext, useMemo, useRef, useState } from 'react';
 import { StompClientParams, useStompClient, Response } from '../hooks/stomp-client'
 import { ChatContext, UpdateChatContext } from '../hooks/chat-context';
 import { Chat, YourMessage, isYourMessage } from '../hooks/chat';
@@ -13,6 +13,7 @@ export const ChatView = () => {
   const { messages } = useContext(ChatContext);
   const { addChat } = useContext(UpdateChatContext);
 
+  const [isLoading, setIsLoading] = useState(false);
   const params = useMemo<StompClientParams>(() => ({
     callback: (response: Response) => {
       const { id } = response;
@@ -32,12 +33,22 @@ export const ChatView = () => {
         });
       } else if (response.type === 'LINE_CHART') {
         const { id, type, ...lineChart } = response;
+        type;
         addChat({
           id,
           type: 'other',
           lineChart,
           timestamp: new Date(),
         })
+      } else if (response.type === 'EVENT') {
+        addChat({
+          id,
+          type: 'other',
+          term: response.content,
+          timestamp: new Date(),
+        });
+      } else if (response.type === 'DONE_EVENT') {
+        setIsLoading(false);
       }
     }
   }), [addChat]);
@@ -47,6 +58,7 @@ export const ChatView = () => {
 
   const idRef = useRef(0);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    if (isLoading) return;
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const query = formData.get('query')?.toString() ?? '';
@@ -62,6 +74,7 @@ export const ChatView = () => {
       destination: '/pub/request',
       body: JSON.stringify({ id: `${idRef.current}-res`, query })
     });
+    setIsLoading(true);
 
     if (inputRef.current) inputRef.current.value = '';
   };
@@ -81,7 +94,7 @@ export const ChatView = () => {
               'chat',
               isYourMessage(chat) ? 'chat--other' : 'chat--mine',
             ].join(' ')}>
-            <ChatBubble chat={chat} />
+            <ChatBubble chat={chat} isLoading={isLoading} />
           </li>
         ))}
       </ol>
@@ -114,10 +127,11 @@ function getDateTimeString(timestamp: Date) {
 
 interface ChatBubbleProps {
   chat: Chat;
+  isLoading: boolean;
 }
-const ChatBubble = ({ chat }: ChatBubbleProps) => {
+const ChatBubble = ({ chat, isLoading }: ChatBubbleProps) => {
   return isYourMessage(chat) ? (
-    <YourChatBubble chat={chat} />
+    <YourChatBubble chat={chat} isLoading={isLoading} />
   ) : (
     <>
       <div className='chat__bubble chat__bubble--mine'>
@@ -130,8 +144,9 @@ const ChatBubble = ({ chat }: ChatBubbleProps) => {
 
 interface YourChatBubbleProps {
   chat: YourMessage;
+  isLoading: boolean;
 }
-const YourChatBubble = ({ chat }: YourChatBubbleProps) => {
+const YourChatBubble = ({ chat, isLoading }: YourChatBubbleProps) => {
   const handleClickOpenModalButton = () => {
     modalRef.current?.showModal();
   };
@@ -140,8 +155,15 @@ const YourChatBubble = ({ chat }: YourChatBubbleProps) => {
   return (
     <>
       <div className='chat__bubble chat__bubble--other'>
+        {chat.term && (
+          <>
+            <span>{chat.term}</span>
+            <hr />
+          </>
+        )}
         <Markdown remarkPlugins={[remarkGfm]}>{chat.message}</Markdown>
         {chat.lineChart && ( <ChatLineChart lineChart={chat.lineChart} />)}
+        {isLoading && <span className="loader"></span>}
       </div>
       <div className='chat__side'>
         <button onClick={handleClickOpenModalButton}>Show Raw Chat</button>
