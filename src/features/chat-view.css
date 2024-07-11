@@ -93,6 +93,7 @@
 }
 .chat-input-form__button {
   margin: 0;
+  width: 80px;
   box-sizing: border-box;
   padding: 12px 20px;
   border: 1px solid;
@@ -137,5 +138,25 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.mini-loader {
+  width: 1em;
+  height: 1em;
+  border: 2px solid #AD1F2F;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: mini-loader-rotation 1s linear infinite;
+}
+
+@keyframes mini-loader-rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
   }
 } 

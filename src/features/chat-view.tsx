@@ -100,7 +100,9 @@ export const ChatView = () => {
       </ol>
       <form className='chat-input-form' onSubmit={handleSubmit}>
         <input className='chat-input-form__input' ref={inputRef} name='query' placeholder='Ask your FHIR!' />
-        <button className='chat-input-form__button'>전송</button>
+        <button className='chat-input-form__button' disabled={isLoading}>
+          {isLoading ? <span className="mini-loader"></span> : <>전송</>}
+        </button>
       </form>
       <KeepMeInScreen />
     </section>
