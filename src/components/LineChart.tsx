@@ -21,7 +21,7 @@ export const ChatLineChart = ({ lineChart }: ChatLineChartProps) => {
 
 export const SimpleLineChart = ({ lineChart }: ChatLineChartProps) => {
   return (
-    <LineChart width={500} height={300} data={lineChart.data} style={{ marginBottom: '10px' }}>
+    <LineChart width={600} height={400} data={lineChart.data} style={{ marginBottom: '10px' }}>
       {lineChart.values.map((value, index) => (
         <Line key={value} type="monotone" dataKey={value} stroke={colors[index % 16]} />
       ))}
@@ -38,7 +38,7 @@ export const SimpleLineChart = ({ lineChart }: ChatLineChartProps) => {
         padding="gap"
         tickCount={lineChart.data.length}
       />
-      <YAxis unit={lineChart.yunit} />
+      <YAxis unit={lineChart.yunit} width={30 + (lineChart.yunit?.length ?? 0) * 10} />
       <Tooltip
         formatter={(value, name, _payload, index) => {
           return [`${value} ${lineChart.yunit}`, lineChart.labels?.[index] ?? name];
@@ -50,7 +50,7 @@ export const SimpleLineChart = ({ lineChart }: ChatLineChartProps) => {
 
 export const DateAxisLineChart = ({ lineChart }: ChatLineChartProps) => {
   return (
-    <LineChart width={500} height={300} data={lineChart.data} style={{ marginBottom: '10px' }}>
+    <LineChart width={600} height={400} data={lineChart.data} style={{ marginBottom: '10px' }}>
       {lineChart.values.map((value, index) => (
         <Line key={value} type="monotone" dataKey={value} stroke={colors[index % 16]} />
       ))}
@@ -71,7 +71,7 @@ export const DateAxisLineChart = ({ lineChart }: ChatLineChartProps) => {
         padding="gap"
         tickCount={lineChart.data.length}
       />
-      <YAxis unit={lineChart.yunit} />
+      <YAxis unit={lineChart.yunit} width={30 + (lineChart.yunit?.length ?? 0) * 10} />
       <Tooltip
         formatter={(value, name, _payload, index) => {
           return [`${value} ${lineChart.yunit}`, lineChart.labels?.[index] ?? name];
