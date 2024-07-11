@@ -35,6 +35,11 @@ export interface StompClientParams {
   callback: (r: Response) => void
 }
 
+export interface ChatHistory {
+  messageType: "User" | "Assistant";
+  content: string;
+}
+
 export const useStompClient = (params: StompClientParams) => {
   const clientRef: MutableRefObject<Client | null> = useRef(null);
 

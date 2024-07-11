@@ -1,5 +1,5 @@
 import { FormEvent, useContext, useMemo, useRef, useState } from 'react';
-import { StompClientParams, useStompClient, Response } from '../hooks/stomp-client'
+import { StompClientParams, useStompClient, Response, ChatHistory } from '../hooks/stomp-client'
 import { ChatContext, UpdateChatContext } from '../hooks/chat-context';
 import { Chat, YourMessage, isYourMessage } from '../hooks/chat';
 import {} from './chat-view.css';
@@ -56,6 +56,12 @@ export const ChatView = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const histories = useMemo<ChatHistory[]>(() => (
+    messages.map(chat => ({
+      messageType: chat.type === 'other' ? 'Assistant' : 'User',
+      content: chat.message ?? '',
+    }))
+  ), [messages]);
   const idRef = useRef(0);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     if (isLoading) return;
@@ -72,7 +78,7 @@ export const ChatView = () => {
     });
     stompClientRef.current?.publish({
       destination: '/pub/request',
-      body: JSON.stringify({ id: `${idRef.current}-res`, query })
+      body: JSON.stringify({ id: `${idRef.current}-res`, query, history: histories })
     });
     setIsLoading(true);
 
