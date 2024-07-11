@@ -2,7 +2,7 @@ import { FormEvent, useContext, useMemo, useRef, useState } from 'react';
 import { StompClientParams, useStompClient, Response, ChatHistory } from '../hooks/stomp-client'
 import { ChatContext, UpdateChatContext } from '../hooks/chat-context';
 import { Chat, YourMessage, isYourMessage } from '../hooks/chat';
-import {} from './chat-view.css';
+import './chat-view.css';
 import { KeepMeInScreen } from '../components/KeepMeInScreen';
 import remarkGfm from 'remark-gfm';
 import Markdown from 'react-markdown';
