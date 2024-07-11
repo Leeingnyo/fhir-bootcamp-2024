@@ -518,6 +518,11 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.18.1.tgz#0cb240c147c0dfd0e3eaff4cc060a772d39e155c"
   integrity sha512-yjk2MAkQmoaPYCSu35RLJ62+dz358nE83VfTePJRp8CG7aMg25mEJYpXFiD+NcevhX8LxD5OP5tktPXnXN7GDw==
 
+"@smile-cdr/fhirts@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@smile-cdr/fhirts/-/fhirts-2.2.3.tgz#8610486e8bfeabe48400c072502b7a8a7f0d0ce4"
+  integrity sha512-jBIFe9/IqvMlycrIzMoV9PFeTunbrN6ZjGV8BFFDL0rKFKrn3ExRLil5IXeuA8MelduWazJM8e1NEQdeQqBBtw==
+
 "@stomp/stompjs@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@stomp/stompjs/-/stompjs-7.0.0.tgz#46b5c454a9dc8262e0b20f3b3dbacaa113993077"
