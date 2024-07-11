@@ -157,14 +157,14 @@ const YourChatBubble = ({ chat, isLoading }: YourChatBubbleProps) => {
   return (
     <>
       <div className='chat__bubble chat__bubble--other'>
-        {chat.term && chat.term.length && (
+        {chat.term && chat.term.length > 0 && (
           <>
             {chat.term.map((term, index) => <div key={index}>{term}</div>)}
             <hr />
           </>
         )}
         <Markdown remarkPlugins={[remarkGfm]}>{chat.message}</Markdown>
-        {chat.lineChart && chat.lineChart.length && (
+        {chat.lineChart && chat.lineChart.length > 0 && (
           chat.lineChart.length === 1 ? (
             <ChatLineChart lineChart={chat.lineChart[0]} />
           ) : (
