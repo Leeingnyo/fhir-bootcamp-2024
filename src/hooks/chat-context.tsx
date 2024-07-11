@@ -25,7 +25,16 @@ export const ChatContextProvider = ({ children }: PropsWithChildren) => {
       if (index < 0) {
         return [...prev, chat];
       }
-      return prev.map(chat_ => chat_.id === chat.id ? { ...chat_, ...chat } : chat_);
+      return prev.map(oldChat => {
+        if (oldChat.id !== chat.id) return oldChat;
+
+        return {
+          ...oldChat,
+          ...chat,
+          term: (oldChat.term ?? []).concat(chat.term ?? []),
+          lineChart: (oldChat.lineChart ?? []).concat(chat.lineChart ?? []),
+        };
+      });
     });
   }, []);
 

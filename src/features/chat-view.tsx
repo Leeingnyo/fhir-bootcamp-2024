@@ -37,14 +37,14 @@ export const ChatView = () => {
         addChat({
           id,
           type: 'other',
-          lineChart,
+          lineChart: [lineChart],
           timestamp: new Date(),
         })
       } else if (response.type === 'EVENT') {
         addChat({
           id,
           type: 'other',
-          term: response.content,
+          term: [response.content],
           timestamp: new Date(),
         });
       } else if (response.type === 'DONE_EVENT') {
@@ -155,14 +155,28 @@ const YourChatBubble = ({ chat, isLoading }: YourChatBubbleProps) => {
   return (
     <>
       <div className='chat__bubble chat__bubble--other'>
-        {chat.term && (
+        {chat.term && chat.term.length && (
           <>
-            <span>{chat.term}</span>
+            {chat.term.map((term, index) => <div key={index}>{term}</div>)}
             <hr />
           </>
         )}
         <Markdown remarkPlugins={[remarkGfm]}>{chat.message}</Markdown>
-        {chat.lineChart && ( <ChatLineChart lineChart={chat.lineChart} />)}
+        {chat.lineChart && chat.lineChart.length && (
+          chat.lineChart.length === 1 ? (
+            <ChatLineChart lineChart={chat.lineChart[0]} />
+          ) : (
+            <>
+              <br />
+              <details>
+                <summary>Show Graphs</summary>
+                {chat.lineChart.map((lineChart, index) => (
+                  <ChatLineChart key={index} lineChart={lineChart} />
+                ))}
+              </details>
+            </>
+          )
+        )}
         {isLoading && <span className="loader"></span>}
       </div>
       <div className='chat__side'>
