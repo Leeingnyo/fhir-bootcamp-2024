@@ -16,9 +16,8 @@ interface FhirResponse extends ResponseBase {
   type: 'FHIR';
 }
 
-interface LineChartResponse extends ResponseBase {
-  type: 'LINECHART';
-  lineChart: LineChartData;
+interface LineChartResponse extends ResponseBase, LineChartData {
+  type: 'LINE_CHART';
 }
 
 export type Response = TextResponse | FhirResponse | LineChartResponse;

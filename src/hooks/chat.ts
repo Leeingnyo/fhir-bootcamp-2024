@@ -1,11 +1,11 @@
 export interface LineChartData {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
-  xKey: string;
-  xType: 'string' | 'number' | 'date';
+  xkey: string;
+  xtype: 'string' | 'number' | 'date';
   values: string[];
   labels?: string[];
-  yUnit?: string;
+  yunit?: string;
 }
 
 export interface Chat {

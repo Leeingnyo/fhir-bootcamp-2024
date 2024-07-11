@@ -12,7 +12,7 @@ interface ChatLineChartProps {
   lineChart: LineChartData;
 }
 export const ChatLineChart = ({ lineChart }: ChatLineChartProps) => {
-  return lineChart.xType === 'date' ? (
+  return lineChart.xtype === 'date' ? (
     <DateAxisLineChart lineChart={lineChart} />
   ) : (
     <SimpleLineChart lineChart={lineChart} />
@@ -34,14 +34,14 @@ export const SimpleLineChart = ({ lineChart }: ChatLineChartProps) => {
         }}
       />
       <XAxis
-        dataKey={lineChart.xKey}
+        dataKey={lineChart.xkey}
         padding="gap"
         tickCount={lineChart.data.length}
       />
-      <YAxis unit={lineChart.yUnit} />
+      <YAxis unit={lineChart.yunit} />
       <Tooltip
         formatter={(value, name, _payload, index) => {
-          return [`${value} ${lineChart.yUnit}`, lineChart.labels?.[index] ?? name];
+          return [`${value} ${lineChart.yunit}`, lineChart.labels?.[index] ?? name];
         }}
       />
     </LineChart>
@@ -63,7 +63,7 @@ export const DateAxisLineChart = ({ lineChart }: ChatLineChartProps) => {
         }}
       />
       <XAxis
-        dataKey={lineChart.xKey}
+        dataKey={lineChart.xkey}
         type="number"
         domain={['dataMin', 'dataMax']}
         allowDataOverflow
@@ -71,10 +71,10 @@ export const DateAxisLineChart = ({ lineChart }: ChatLineChartProps) => {
         padding="gap"
         tickCount={lineChart.data.length}
       />
-      <YAxis unit={lineChart.yUnit} />
+      <YAxis unit={lineChart.yunit} />
       <Tooltip
         formatter={(value, name, _payload, index) => {
-          return [`${value} ${lineChart.yUnit}`, lineChart.labels?.[index] ?? name];
+          return [`${value} ${lineChart.yunit}`, lineChart.labels?.[index] ?? name];
         }}
         labelFormatter={(label) => {
           return new Date(label).toLocaleDateString();

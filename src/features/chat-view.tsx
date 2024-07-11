@@ -30,11 +30,12 @@ export const ChatView = () => {
           fhir: JSON.parse(response.content),
           timestamp: new Date(),
         });
-      } else if (response.type === 'LINECHART') {
+      } else if (response.type === 'LINE_CHART') {
+        const { id, type, ...lineChart } = response;
         addChat({
           id,
           type: 'other',
-          lineChart: response.lineChart,
+          lineChart,
           timestamp: new Date(),
         })
       }
