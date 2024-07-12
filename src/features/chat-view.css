@@ -62,6 +62,14 @@
 .chat__bubble--mine {
   background-color: skyblue;
 }
+@media (prefers-color-scheme: dark) {
+  .chat__bubble--other {
+    background-color: dimgray;
+  }
+  .chat__bubble--mine {
+    background-color: steelblue;
+  }
+}
 
 /* normalize */
 .chat__bubble p:first-child {
@@ -97,7 +105,13 @@
   box-sizing: border-box;
   padding: 12px 20px;
   border: 1px solid;
-  background: yellow;
+  background-color: yellow;
+}
+@media (prefers-color-scheme: dark) {
+  .chat-input-form__button {
+    background-color: #59590d;
+    border-color: #666600;
+  }
 }
 
 .chat__chat-modal {
