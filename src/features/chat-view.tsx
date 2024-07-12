@@ -62,6 +62,7 @@ export const ChatView = () => {
       content: chat.message ?? '',
     }))
   ), [messages]);
+  const [uid] = useState(Math.random().toFixed(8));
   const idRef = useRef(0);
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     if (isLoading) return;
@@ -71,14 +72,14 @@ export const ChatView = () => {
 
     idRef.current++;
     addChat({
-      id: (idRef.current).toString(),
+      id: `${uid}:${idRef.current}`,
       type: 'mine',
       message: query,
       timestamp: new Date(),
     });
     stompClientRef.current?.publish({
       destination: '/pub/request',
-      body: JSON.stringify({ id: `${idRef.current}-res`, query, history: histories })
+      body: JSON.stringify({ id: `${uid}:${idRef.current}-res`, query, history: histories })
     });
     setIsLoading(true);
 
