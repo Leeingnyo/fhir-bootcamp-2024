@@ -10,12 +10,13 @@ const colors = ['#FF4500', '#32CD32', '#FF1493', '#00CED1', '#D2691E', '#6A5ACD'
 
 interface ChatLineChartProps {
   lineChart: LineChartData;
+  colorStartIndex?: number;
 }
-export const ChatLineChart = ({ lineChart }: ChatLineChartProps) => {
+export const ChatLineChart = ({ lineChart, ...props }: ChatLineChartProps) => {
   return lineChart.xtype === 'date' ? (
-    <DateAxisLineChart lineChart={lineChart} />
+    <DateAxisLineChart lineChart={lineChart} {...props} />
   ) : (
-    <SimpleLineChart lineChart={lineChart} />
+    <SimpleLineChart lineChart={lineChart} {...props} />
   );
 };
 
@@ -48,11 +49,11 @@ export const SimpleLineChart = ({ lineChart }: ChatLineChartProps) => {
   )
 };
 
-export const DateAxisLineChart = ({ lineChart }: ChatLineChartProps) => {
+export const DateAxisLineChart = ({ lineChart, colorStartIndex = 0 }: ChatLineChartProps) => {
   return (
     <LineChart width={600} height={400} data={lineChart.data} style={{ marginBottom: '10px' }}>
       {lineChart.values.map((value, index) => (
-        <Line key={value} type="monotone" dataKey={value} stroke={colors[index % 16]} />
+        <Line key={value} type="monotone" dataKey={value} stroke={colors[colorStartIndex + index % 16]} />
       ))}
       <CartesianGrid stroke="#ccc" />
       <Legend

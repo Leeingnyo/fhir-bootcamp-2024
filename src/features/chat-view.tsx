@@ -179,9 +179,10 @@ const YourChatBubble = ({ chat, isLoading }: YourChatBubbleProps) => {
               <br />
               <details>
                 <summary>Show Graphs</summary>
-                {chat.lineChart.map((lineChart, index) => (
-                  <ChatLineChart key={index} lineChart={lineChart} />
-                ))}
+                {chat.lineChart.map((lineChart, index, charts) => {
+                  const startIndex = charts.slice(0, index).reduce((count, chart) => count + chart.values.length, 0);
+                  return <ChatLineChart key={index} lineChart={lineChart} colorStartIndex={startIndex} />
+                })}
               </details>
             </>
           )
