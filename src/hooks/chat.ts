@@ -10,7 +10,7 @@ export interface LineChartData {
 
 export interface Chat {
   id: string;
-  type: string;
+  type: 'other' | 'mine';
   message?: string;
   fhir?: object;
   lineChart?: LineChartData[];

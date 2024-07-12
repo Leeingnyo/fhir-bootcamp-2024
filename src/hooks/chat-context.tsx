@@ -23,7 +23,13 @@ export const ChatContextProvider = ({ children }: PropsWithChildren) => {
     setMessages(prev => {
       const index = prev.findIndex(chat_ => chat_.id === chat.id);
       if (index < 0) {
-        return [...prev, chat];
+        if (chat.type === 'mine') {
+          return [...prev, chat];
+        }
+        const [myIndex] = chat.id.split('-res'); // TODO: fix
+        const questionIndex = prev.findIndex(chat_ => chat_.id === myIndex);
+        if (questionIndex < 0) return prev;
+        return [...prev.slice(0, questionIndex + 1), chat, ...prev.slice(questionIndex + 1)];
       }
       return prev.map(oldChat => {
         if (oldChat.id !== chat.id) return oldChat;
