@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useMemo, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { StompClientParams, useStompClient, Response, ChatHistory } from '../hooks/stomp-client'
 import { ChatContext, UpdateChatContext } from '../hooks/chat-context';
 import { Chat, YourMessage, isYourMessage } from '../hooks/chat';
@@ -161,6 +161,22 @@ const YourChatBubble = ({ chat, isLoading }: YourChatBubbleProps) => {
   };
   const modalRef = useRef<HTMLDialogElement>(null);
 
+  const maxValue = chat.message?.length ?? 0;
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const isSameLength = maxValue === currentIndex;
+  useEffect(() => {
+    if (isSameLength) return;
+
+    const timeout = setInterval(() => {
+      setCurrentIndex(prev => prev + 1);
+    }, 16);
+
+    return () => {
+      clearInterval(timeout);
+    };
+  }, [isSameLength]);
+
   return (
     <>
       <div className='chat__bubble chat__bubble--other'>
@@ -170,7 +186,7 @@ const YourChatBubble = ({ chat, isLoading }: YourChatBubbleProps) => {
             <hr />
           </>
         )}
-        <Markdown remarkPlugins={[remarkGfm]}>{chat.message}</Markdown>
+        <Markdown remarkPlugins={[remarkGfm]}>{chat.message?.slice(0, currentIndex)}</Markdown>
         {chat.lineChart && chat.lineChart.length > 0 && (
           chat.lineChart.length === 1 ? (
             <ChatLineChart lineChart={chat.lineChart[0]} />
@@ -187,7 +203,7 @@ const YourChatBubble = ({ chat, isLoading }: YourChatBubbleProps) => {
             </>
           )
         )}
-        {isLoading && <span className="loader"></span>}
+        {(isLoading || !isSameLength) && <span className="loader"></span>}
       </div>
       <div className='chat__side'>
         <button onClick={handleClickOpenModalButton}>Show Raw Chat</button>
